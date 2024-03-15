@@ -176,12 +176,24 @@
     $icms_total->vICMSMonoRet = null;
     $nfe->tagICMSTot($icms_total);
 
+    /* TRANSPORTE */
+    $transporte = new stdClass();
+    $transporte->modFrete = 9;
+    $nfe->tagtransp($transporte);
+
+    /* PAGAMENTO */
+    $troco = new stdClass();
+    $troco->vTroco = null; //incluso no layout 4.00, obrigatório informar para NFCe (65)
+    $nfe->tagpag($troco);
+
+    $pagamento = new stdClass();
+    $pagamento->indPag = '0'; //0: Pagamento à Vista - 1:Pagamento a Prazo
+    $pagamento->tPag = '01';
+    $pagamento->vPag = 50; //Obs: deve ser informado o valor pago pelo cliente
+    $nfe->tagdetPag($pagamento);
+
     /* RUN */
     $xml = $nfe->getXML();
     header("Content-Type:text/xml");
     echo($xml);
-    
-    /* echo "<pre>";
-    echo htmlspecialchars($xml);
-    echo "</pre>"; */
-    ?>
+?>
